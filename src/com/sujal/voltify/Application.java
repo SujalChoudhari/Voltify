@@ -13,8 +13,6 @@ public class Application {
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		database = new Database("jdbc:mysql://localhost:3306/voltify", System.getenv("user"), System.getenv("pass"));
 		uiManager = new UIManager();
-		
-		
 		uiManager.launch();
 	}
 
