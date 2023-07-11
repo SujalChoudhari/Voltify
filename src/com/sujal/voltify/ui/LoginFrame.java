@@ -109,7 +109,8 @@ public class LoginFrame extends JFrame implements ActionListener {
 					dispose();
 				}
 				else if(Application.database.verifyUser(username,passwordString)) {
-					UserFrame.start(username);
+					Application.username = username;
+					UserFrame.start();
 					dispose();
 				}
 			} catch (SQLException e1) {

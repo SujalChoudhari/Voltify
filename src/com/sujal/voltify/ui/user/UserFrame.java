@@ -19,6 +19,8 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.sql.SQLException;
 
 import javax.swing.SwingConstants;
@@ -26,17 +28,17 @@ import javax.swing.SwingConstants;
 public class UserFrame extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
-	public String username;
+
 	private JButton mUploadNewBillButton ;
 	private JButton mCheckPastBillsButton;
 	private JButton mViewProfileButton;
 	private JButton mEstimateCostButton;
 
-	public static void start(String username) {
+	public static void start() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UserFrame frame = new UserFrame(username);
+					UserFrame frame = new UserFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,10 +47,9 @@ public class UserFrame extends JFrame implements ActionListener {
 		});
 	}
 
-	public UserFrame(String username) {
-		this.username = username;
+	public UserFrame() {
 		try {
-			Application.database.getMeter(username);
+			Application.database.getMeter(Application.username);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -65,14 +66,6 @@ public class UserFrame extends JFrame implements ActionListener {
 		contentPane.add(panel);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setAlignmentY(Component.TOP_ALIGNMENT);
-		panel.add(panel_1);
-		
-		JLabel lblNewLabel = new JLabel("Hello, " + username);
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
-		panel_1.add(lblNewLabel);
 		
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2);
@@ -98,7 +91,7 @@ public class UserFrame extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == mViewProfileButton) {
-			ProfileFrame.start(username);
+			ProfileFrame.start();
 		}
 	}
 

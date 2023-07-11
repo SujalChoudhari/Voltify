@@ -29,14 +29,35 @@ public class Database {
 		createUser(new Random().nextInt(10000, 20000), name, password, place, city, pincode, true);
 	}
 
-		private void createUser(int meterNo, String name, String password, String place, String city, int pincode,
-				boolean isAdmin) throws SQLException {
-	
-			String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-	
-			mStatement.executeUpdate("INSERT INTO meter VALUES (" + meterNo + ",'" + name + "','" + password + "','"
-					+ dateString + "','" + place + "','" + city + "'," + pincode + "," + isAdmin + ")");
-		}
+	public void updateMeter(int meterNo, String name, String password, String place, String city, int pincode)
+			throws SQLException {
+		updateUser(meterNo, name, password, place, city, pincode, false);
+	}
+
+	public void updateAdmin(String name, String password, String place, String city, int pincode) throws SQLException {
+		updateUser(new Random().nextInt(10000, 20000), name, password, place, city, pincode, true);
+	}
+
+	private void createUser(int meterNo, String name, String password, String place, String city, int pincode,
+			boolean isAdmin) throws SQLException {
+
+		String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+		mStatement.executeUpdate("INSERT INTO meter VALUES (" + meterNo + ",'" + name + "','" + password + "','"
+				+ dateString + "','" + place + "','" + city + "'," + pincode + "," + isAdmin + ")");
+	}
+
+	private void updateUser(int meterNo, String name, String password, String place, String city, int pincode,
+			boolean isAdmin) throws SQLException {
+
+		String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+		String sql = "UPDATE meter SET username = '" + name + "', user_password = '" + password + "', created_at = '"
+				+ dateString + "', place = '" + place + "', city = '" + city + "', pincode = " + pincode
+				+ ", administrator = " + isAdmin + " WHERE id = " + meterNo;
+
+		mStatement.executeUpdate(sql);
+	}
 
 	public boolean verifyUser(String username, String password) throws SQLException {
 		ResultSet resultSet = mStatement.executeQuery("SELECT * FROM meter WHERE username = '" + username
@@ -79,9 +100,9 @@ public class Database {
 		resultSet.next();
 		return resultSet;
 	}
-	
+
 	public ResultSet getMeter(String username) throws SQLException {
-		ResultSet resultSet = mStatement.executeQuery("SELECT * FROM meter WHERE username = '" + username+"'");
+		ResultSet resultSet = mStatement.executeQuery("SELECT * FROM meter WHERE username = '" + username + "'");
 		resultSet.next();
 		return resultSet;
 	}
