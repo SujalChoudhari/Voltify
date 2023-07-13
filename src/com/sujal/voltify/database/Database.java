@@ -79,17 +79,10 @@ public class Database {
 				+ "," + amount + "," + paid + ")");
 	}
 
-	public void updateBillAmount(int billId, float newAmount) throws SQLException {
-		mStatement.executeUpdate("UPDATE bill SET amount = " + newAmount + " WHERE id = " + billId);
-	}
-
 	public void updateBillStatus(int billId, boolean paid) throws SQLException {
 		mStatement.executeUpdate("UPDATE bill SET paid = " + paid + " WHERE id = " + billId);
 	}
 
-	public void deleteBill(int billId) throws SQLException {
-		mStatement.executeUpdate("DELETE FROM bill WHERE id = " + billId);
-	}
 
 	public void deleteMeter(int meterId) throws SQLException {
 		mStatement.executeUpdate("DELETE FROM meter WHERE id = " + meterId);
@@ -115,7 +108,6 @@ public class Database {
 
 	public ResultSet getAllBillsForMeter(int meterId) throws SQLException {
 		ResultSet resultSet = mStatement.executeQuery("SELECT * FROM bill WHERE meter_id = " + meterId);
-		resultSet.next();
 		return resultSet;
 	}
 
@@ -123,4 +115,16 @@ public class Database {
 		ResultSet resultSet = mStatement.executeQuery("SELECT * FROM meter");
 		return resultSet;
 	}
+	
+	public ResultSet getAllBills() throws SQLException {
+	    ResultSet resultSet = mStatement.executeQuery("SELECT * FROM bill");
+	    return resultSet;
+	}
+
+	public ResultSet getFilteredBills(String filterColumn, String filterValue) throws SQLException {
+	    String query = "SELECT * FROM bill WHERE " + filterColumn + " = '" + filterValue + "'";
+	    ResultSet resultSet = mStatement.executeQuery(query);
+	    return resultSet;
+	}
+
 }

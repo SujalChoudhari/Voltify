@@ -105,7 +105,8 @@ public class LoginFrame extends JFrame implements ActionListener {
 			String passwordString = new String(mPasswordField.getPassword());
 			try {
 				if(Application.database.verifyAdmin(username,passwordString)) {
-					System.out.println("ADMIN");
+					Application.username = username;
+					AdminFrame.start();
 					dispose();
 				}
 				else if(Application.database.verifyUser(username,passwordString)) {
